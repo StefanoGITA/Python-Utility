@@ -10,6 +10,7 @@ from datetime import datetime, timedelta
 
 # ----------------------------------------------------------------------------------------------------------------------
 ########### DICT UTILS
+# With this utils You can dynamically generate a multilevel dictionary   
 from functools import reduce
 import operator
 
