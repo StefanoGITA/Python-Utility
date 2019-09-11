@@ -33,6 +33,20 @@ def incDictKeyValue(dataDict, mapList, value):
     """
     If the key exists, the utility increments the value index by the key tree, else, if the key don't exist
     add the pair key value up to the root, if necessary
+    In the list You must pass all the keys, rom to root to key to update
+    Es:
+        d = {'a':
+            {'v': 1,
+             'b': {'v': 1,
+                   'c': {'v': 1}}
+             }}
+        k = ['a', 'b', 'v']
+        x = incDictKeyValue(d,k,1)
+        print(d)
+    
+        k = ['a', 'b', 'v']
+        x = incDictKeyValue(d,k,1)
+        print(d)
     :param dataDict: the dictionary
     :param mapList: the list of keys
     :param value: the inc of the vaule
