@@ -2,22 +2,24 @@
 # -*- coding: utf-8 -*-
 __author__ = "Stefano Giostra"
 __maintainer__ = "Stefano Giostra"
-__email__ = "Stefano.GIOSTRA@consultant.vodafoneomnitel.it"
 __license__ = "GPL"
 __version__ = "1.0.0"
 
 from datetime import datetime, timedelta
+import os
+import sys
+import platform
 
 # ----------------------------------------------------------------------------------------------------------------------
-########### DICT UTILS
-# With this utils You can dynamically generate a multilevel dictionary   
+# ----- DICT UTILS -----
+# With this utils You can dynamically generate a multilevel dictionary
 from functools import reduce
 import operator
 
+
 def getFromDict(dataDict, mapList):
     """
-    The utility, given a dict and a key list return the sub object, id we are at the  lat key, the utilty
-    give us the vaule
+    given a dict and a key list, this utility return the sub object
     :param dataDict: the dictionary
     :param mapList: the list of keys
     :return: value or dict
@@ -25,6 +27,7 @@ def getFromDict(dataDict, mapList):
     assert isinstance(dataDict, dict)
     assert isinstance(mapList, list)
     return reduce(operator.getitem, mapList, dataDict)
+
 
 def incDictKeyValue(dataDict, mapList, value):
     """
@@ -44,7 +47,8 @@ def incDictKeyValue(dataDict, mapList, value):
             # You can make the inc only a leave level
             reduce(operator.getitem, mapList[:-1], dataDict)[mapList[-1]] += value
     except KeyError:
-        incDictKeyValue(dataDict, mapList[:-1], {mapList[-1]:value})
+        incDictKeyValue(dataDict, mapList[:-1], {mapList[-1]: value})
+
 
 def setDictKeyValue(dataDict, mapList, value):
     """
@@ -60,8 +64,9 @@ def setDictKeyValue(dataDict, mapList, value):
     try:
         reduce(operator.getitem, mapList[:-1], dataDict)[mapList[-1]] = value
     except KeyError:
-        incDictKeyValue(dataDict, mapList[:-1], {mapList[-1]:value})
-        
+        incDictKeyValue(dataDict, mapList[:-1], {mapList[-1]: value})
+
+
 '''
 #test
 giorno = '12/Mar/2018'
@@ -76,8 +81,7 @@ incDictKeyValue(inform_dict["accepted"]["giorno"], keys, 1)
 print(inform_dict)
 setDictKeyValue(inform_dict["accepted"]["giorno"], keys, 10)
 print(inform_dict)
-'''        
-# ----------------------------------------------------------------------------------------------------------------------
+'''
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -85,8 +89,8 @@ def json_to_csv(json_buf, p_row_key, p_column_keys, csv_filename, separator='|')
     """
     Questo metodo prende in ingresso un buffer json e lo converte in un csv, mettendo come prima colonna
     la chiave del json scelta e come altre colonne le chiavi passate nella lista p_column_keys
-    
-    :param json_buf: il buffer json da convertire 
+
+    :param json_buf: il buffer json da convertire
     :param p_row_key: Nome da dare alla colonna che corrisponde alla chiave del dizionario
     :param p_column_keys: le chiavi del dizionario che si volgiono visualizzare come colonne del csv
     :param csv_filename: nome del file in cui salvare i dati
@@ -96,19 +100,19 @@ def json_to_csv(json_buf, p_row_key, p_column_keys, csv_filename, separator='|')
     assert isinstance(p_column_keys, list)
     csv_buf = '%s%s%s' % (p_row_key, separator, separator.join(p_column_keys))
     for key in json_buf:
-       csv_buf = "%s\n%s" % (csv_buf, key)
-       for col_key in p_column_keys:
-           try:
-               csv_buf = "%s%s%s" % (csv_buf, separator, json_buf[key][col_key])
-           except KeyError:
-               csv_buf += "%s0" % separator
+        csv_buf = "%s\n%s" % (csv_buf, key)
+        for col_key in p_column_keys:
+            try:
+                csv_buf = "%s%s%s" % (csv_buf, separator, json_buf[key][col_key])
+            except KeyError:
+                csv_buf += "%s0" % separator
 
     f = open(csv_filename, 'w')
     f.write(csv_buf)
     f.close()
     return os.path.abspath(csv_filename)
 
-    
+
 # ----------------------------------------------------------------------------------------------------------------------
 def get_utility_fullpath():
     """
@@ -125,7 +129,7 @@ def get_utility_fullpath():
         lpath = os.path.dirname(sys.executable)
     return lpath
 
-    
+
 # ----------------------------------------------------------------------------------------------------------------------
 def get_day_at_00(passed_days=0):
     """
